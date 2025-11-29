@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from models import Product
-from schemas import ProductCreate, ProductUpdate
+from src.models import Product
+from src.schemas import ProductCreate, ProductUpdate
 
 
 async def create_product(session: AsyncSession, product_data: ProductCreate) -> Product:

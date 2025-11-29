@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from schemas import ProductOut, ProductCreate, ProductUpdate
+from src.schemas import ProductOut, ProductCreate, ProductUpdate
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
-from database import get_session
-from repositories import products_repository
+from src.database import get_session
+from src.repositories import products_repository
 
 
 router = APIRouter(prefix="/products", tags=["products"])
