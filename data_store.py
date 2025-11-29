@@ -1,9 +1,9 @@
-from schemas import Product, ProductCreate, ProductUpdate
+from schemas import ProductOut, ProductCreate, ProductUpdate
 
 
 class DataStore:
     def __init__(self):
-        self.products: dict[int, Product] = {}
+        self.products: dict[int, ProductOut] = {}
         self.current_id: int = 1
 
     def next_id(self) -> int:
@@ -12,8 +12,8 @@ class DataStore:
         return value
 
     # создание нового продукта
-    def create_product(self, data: ProductCreate) -> Product:
-        product = Product(id=self.next_id(), **data.model_dump())
+    def create_product(self, data: ProductCreate) -> ProductOut:
+        product = ProductOut(id=self.next_id(), **data.model_dump())
         self.products[self.current_id] = product
         return product
 
@@ -22,7 +22,7 @@ class DataStore:
                          q: str = None,
                          in_stock: bool = None,
                          min_price: float = None,
-                         max_price: float = None) -> list[Product]:
+                         max_price: float = None) -> list[ProductOut]:
         result = list(self.products.values())
 
         if q is not None:
@@ -40,15 +40,15 @@ class DataStore:
 
         return result
 
-    def get_product(self, product_id: int) -> Product:
+    def get_product(self, product_id: int) -> ProductOut:
         return self.products.get(product_id)
 
-    def put_product(self, product_id: int, product_data: ProductCreate) -> Product:
-        updated = Product(id=product_id, **product_data.model_dump())
+    def put_product(self, product_id: int, product_data: ProductCreate) -> ProductOut:
+        updated = ProductOut(id=product_id, **product_data.model_dump())
         self.products[product_id] = updated
         return updated
 
-    def patch_product(self, product_id: int, product_data: ProductUpdate) -> Product:
+    def patch_product(self, product_id: int, product_data: ProductUpdate) -> ProductOut:
         current = self.products[product_id]
         updates = product_data.model_dump(exclude_unset=True)
         product_data_updated = current.model_copy(update=updates)
