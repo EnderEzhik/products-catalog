@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from routers import products
+from database import Base, engine
 
+
+Base.metadata.create_all(engine)
 
 app = FastAPI()
 

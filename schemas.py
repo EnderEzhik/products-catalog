@@ -8,8 +8,11 @@ class ProductCreate(BaseModel):
     in_stock: bool = True
 
 
-class Product(ProductCreate):
+class ProductOut(ProductCreate):
     id: int
+
+    class Config:
+        orm_mode = True
 
 
 class ProductUpdate(BaseModel):
