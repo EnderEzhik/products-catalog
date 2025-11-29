@@ -1,16 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy import Column, Integer, String, Float, Boolean
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 
 
-engine = create_engine("sqlite:///products.db", echo=True)
+engine = create_async_engine("sqlite+aiosqlite:///products.db", echo=True)
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+SessionMaker = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 
-def get_db():
-    db = Session()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_session():
+    async with SessionMaker() as session:
+        yield session
